@@ -3,3 +3,5 @@
 *.suo
 *.userosscache
 *.sln.docstates
+**/Credentials.json
+**/Credentials/
