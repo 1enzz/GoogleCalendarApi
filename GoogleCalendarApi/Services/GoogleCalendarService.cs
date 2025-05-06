@@ -45,7 +45,7 @@ namespace GoogleCalendarApi.Services
             InformacoesProcesso info = new InformacoesProcesso();
 
             var service = GetCalendarService();
-
+            
             Event newEvent = new Event()
             {
                 Summary = jsonEventInfo.Processo,
