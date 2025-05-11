@@ -28,7 +28,7 @@ namespace GoogleCalendarApi.Services
                     Scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+                    new NullDataStore()).Result;
 
                 return new CalendarService(new BaseClientService.Initializer()
                 {
@@ -40,9 +40,6 @@ namespace GoogleCalendarApi.Services
 
         public string CriarEvento(InformacoesProcesso jsonEventInfo)
         {
-            DateTime dataFinalConvertida, dataPublicacaoConvertida;
-
-            InformacoesProcesso info = new InformacoesProcesso();
 
             var service = GetCalendarService();
             

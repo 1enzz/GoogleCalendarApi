@@ -36,6 +36,37 @@
         }
       }
     },
+    "/api/Task/criar-task": {
+      "post": {
+        "tags": [
+          "Task"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformacoesProcessoTask"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformacoesProcessoTask"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformacoesProcessoTask"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -94,6 +125,28 @@
             "format": "date-time"
           },
           "localProcesso": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InformacoesProcessoTask": {
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataPrazo": {
+            "type": "string",
+            "nullable": true
+          },
+          "localProcesso": {
+            "type": "string",
+            "nullable": true
+          },
+          "descricao": {
             "type": "string",
             "nullable": true
           }
