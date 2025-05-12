@@ -12,50 +12,38 @@ namespace GoogleCalendarApi.Services
 {
     public class GoogleCalendarService : IGoogleCalendarService
     {
-        private readonly string[] Scopes = { CalendarService.Scope.Calendar };
-        private const string AppName = "GoogleCalendar API";
-        private readonly string CredentialPath = "Credentials/Credentials.json";
+        private const string AppName = "GoogleCalendarApi";
 
-        public CalendarService GetCalendarService()
+        public CalendarService GetCalendarService(string accessToken)
         {
-            UserCredential credential;
+            var credential = GoogleCredential.FromAccessToken(accessToken);
 
-            using (var stream = new FileStream(CredentialPath, FileMode.Open, FileAccess.Read))
+            return new CalendarService(new BaseClientService.Initializer()
             {
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new NullDataStore()).Result;
-
-                return new CalendarService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = AppName,
-                });
-            }
+                HttpClientInitializer = credential,
+                ApplicationName = AppName,
+            });
+            
         }
 
-        public string CriarEvento(InformacoesProcesso jsonEventInfo)
+        public string CriarEvento(EventRequest req)
         {
 
-            var service = GetCalendarService();
-            
+            var service = GetCalendarService(req.AccessToken);
+            var info = req.Info;
             Event newEvent = new Event()
             {
-                Summary = jsonEventInfo.Processo,
-                Location = jsonEventInfo.LocalProcesso,
-                Description = "Agendamento processo que se iniciou em: " + jsonEventInfo.DataPublicacao,
+                Summary = info.Processo,
+                Location = info.LocalProcesso,
+                Description = "Agendamento processo que se iniciou em: " + info.DataPublicacao,
                 Start = new EventDateTime()
                 {
-                    DateTime = jsonEventInfo.DataFinal,
+                    DateTime = info.DataFinal,
                     TimeZone = "America/Sao_Paulo"
                 },
                 End = new EventDateTime()
                 {
-                    DateTime = jsonEventInfo.DataFinal,
+                    DateTime = info.DataFinal,
                     TimeZone = "America/Sao_Paulo"
                 }
             };

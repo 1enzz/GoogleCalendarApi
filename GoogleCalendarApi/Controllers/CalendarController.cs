@@ -1,6 +1,5 @@
 ﻿using GoogleCalendarApi.Interfaces;
 using GoogleCalendarApi.Models;
-using GoogleCalendarApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -14,11 +13,13 @@ namespace GoogleCalendarApi.Controllers
         private readonly IGoogleCalendarService _googleCalendarService = googleCalendarService;
 
         [HttpPost("criar-evento")]
-        public IActionResult CriarEvento([FromBody] InformacoesProcesso jsonData)
+        public IActionResult CriarEvento([FromBody] EventRequest request)
         {
+            if (string.IsNullOrEmpty(request.AccessToken))
+                return BadRequest("Token não informado");
             try
             {
-                string result = _googleCalendarService.CriarEvento(jsonData);
+                string result = _googleCalendarService.CriarEvento(request);
                 return Ok( result );
             }
             catch (Exception ex) {

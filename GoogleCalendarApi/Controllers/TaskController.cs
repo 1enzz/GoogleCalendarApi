@@ -15,11 +15,13 @@ namespace GoogleCalendarApi.Controllers
 
 
         [HttpPost("criar-task")]
-        public IActionResult CriarEvento([FromBody] InformacoesProcessoTask jsonData)
+        public IActionResult CriarEvento([FromBody] EventRequestTask request)
         {
+            if (string.IsNullOrEmpty(request.AccessToken))
+                return BadRequest("Token nao informado");
             try
             {
-                string result = _googleTaskService.CriarTask(jsonData);
+                string result = _googleTaskService.CriarTask(request);
                 return Ok(result);
             }
             catch (Exception ex)
