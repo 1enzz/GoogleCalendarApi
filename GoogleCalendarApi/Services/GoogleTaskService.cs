@@ -12,7 +12,8 @@ namespace GoogleCalendarApi.Services
     public class GoogleTasksServices : IGoogleTaskService
     {
         private const string AppName = "GoogleCalendarApi";
-        public TasksService GetTasksService(string accessToken){
+        public TasksService GetTasksService(string accessToken)
+        {
 
             var credential = GoogleCredential.FromAccessToken(accessToken);
 
@@ -21,19 +22,24 @@ namespace GoogleCalendarApi.Services
                 HttpClientInitializer = credential,
                 ApplicationName = AppName,
             });
-            
+
         }
+
         public string CriarTask(EventRequestTask req)
         {
             var service = GetTasksService(req.AccessToken);
             var taskList = service.Tasklists.List().Execute().Items?.FirstOrDefault();
             var info = req.Info;
-            var newTask =  new Google.Apis.Tasks.v1.Data.Task
+
+            // Fix for CS1501: Convert DataPrazo to DateTime before formatting
+            DateTime dataPrazoConvertida = DateTime.Parse(info.DataPrazo, CultureInfo.InvariantCulture);
+            string dataConvertida = dataPrazoConvertida.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+
+            var newTask = new Google.Apis.Tasks.v1.Data.Task
             {
                 Title = info.Titulo,
-                Position = info.LocalProcesso,
                 Notes = info.Descricao,
-                Due = DateTime.ParseExact(info.DataPrazo, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd'T'00:00:00.000'Z'")
+                Due = dataConvertida
             };
 
             var request = service.Tasks.Insert(newTask, taskList.Id);

@@ -6,7 +6,6 @@ namespace GoogleCalendarApi.Models
   
         public string Titulo { get; set; }
         public string DataPrazo { get; set; }
-        public string LocalProcesso { get; set; }
         public string Descricao { get; set; }
     }
 }

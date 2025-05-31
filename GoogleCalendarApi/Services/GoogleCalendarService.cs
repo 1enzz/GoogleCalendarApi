@@ -43,7 +43,7 @@ namespace GoogleCalendarApi.Services
                 },
                 End = new EventDateTime()
                 {
-                    DateTime = info.DataFinal,
+                    DateTime = info.DataFinal.AddHours(1),
                     TimeZone = "America/Sao_Paulo"
                 }
             };
