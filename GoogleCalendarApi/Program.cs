@@ -19,9 +19,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigins", policy =>
     {
         policy.AllowAnyOrigin()  // Permite qualquer origem
-              .AllowAnyHeader()  // Permite qualquer cabeçalho
-              .AllowAnyMethod(); // Permite qualquer método HTTP (GET, POST, etc.)
-    });
+              .AllowAnyHeader()  // Permite qualquer cabeÃ§alho
+              .AllowAnyMethod(); // Permite qualquer mÃ©todo HTTP (GET, POST, etc.)
+Â Â Â Â });
 });
 
 
